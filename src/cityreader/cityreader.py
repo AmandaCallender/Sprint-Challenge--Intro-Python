@@ -14,21 +14,41 @@
 #
 # Note that the first line of the CSV is header that describes the fields--this
 # should not be loaded into a City object.
+import csv
+
+
+class City():
+    def __init__(self, name, lat, long):
+        self.name = name
+        self.lat = lat
+        self.lon = long
+
+
 cities = []
 
+
 def cityreader(cities=[]):
-  # TODO Implement the functionality to read from the 'cities.csv' file
-  # Ensure that the lat and lon valuse are all floats
-  # For each city record, create a new City instance and add it to the 
-  # `cities` list
-    
+    # TODO Implement the functionality to read from the 'cities.csv' file
+    # Ensure that the lat and lon values are all floats
+    # For each city record, create a new City instance and add it to the
+    # `cities` list
+    with open('cities.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        next(csv_reader)
+        for row in csv_reader:
+            city_name = row[0]
+            latitude = float(row[3])
+            longitude = -float(row[4][1:])
+            cities.append(City(city_name, latitude, longitude))
+
     return cities
+
 
 cityreader(cities)
 
 # Print the list of cities (name, lat, lon), 1 record per line.
 for c in cities:
-    print(c)
+    print(c.name, c.lat, c.lon)
 
 # STRETCH GOAL!
 #
